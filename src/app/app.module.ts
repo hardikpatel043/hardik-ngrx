@@ -5,6 +5,7 @@ import { CourseModule } from "./course/course.module";
 import { HttpClientModule } from "@angular/common/http";
 import { NgModule } from "@angular/core";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
+import { environment } from "src/environments/environment";
 
 @NgModule({
   declarations: [AppComponent],
@@ -13,7 +14,9 @@ import { StoreDevtoolsModule } from "@ngrx/store-devtools";
     AppRoutingModule,
     CourseModule,
     HttpClientModule,
-    StoreDevtoolsModule.instrument({ maxAge: 25 })
+    !environment.production
+      ? StoreDevtoolsModule.instrument({ maxAge: 25 })
+      : []
   ],
   providers: [],
   bootstrap: [AppComponent]
