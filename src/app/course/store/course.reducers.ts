@@ -14,12 +14,13 @@ export const initialState = adapter.getInitialState({
   coursesLoaded: false
 });
 
-export const courseReducer = createReducer(
-  initialState,
-
-  on(courseActionTypes.coursesLoaded, (state, action) => {
-    return adapter.addAll(action.courses, { ...state, coursesLoaded: true });
-  })
-);
+export function courseReducer(state, action) {
+  return createReducer(
+    initialState,
+    on(courseActionTypes.coursesLoaded, state =>
+      adapter.addAll(action.courses, { ...state, coursesLoaded: true })
+    )
+  )(state, action);
+}
 
 export const { selectAll, selectIds } = adapter.getSelectors();
