@@ -22,6 +22,7 @@
     "@ngrx/core": "1.2.0",
     "@ngrx/effects": "9.1.0",
     "@ngrx/store": "9.1.0",
+    "bootstrap": "^4.4.1",
     "rxjs": "~6.4.0",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"
