@@ -19,7 +19,18 @@ export function courseReducer(state, action) {
     initialState,
     on(courseActionTypes.coursesLoaded, state =>
       adapter.addAll(action.courses, { ...state, coursesLoaded: true })
-    )
+    ),
+    on(courseActionTypes.createCourse, (state, action) => {
+      return adapter.addOne(action.course, state);
+    }),
+
+    on(courseActionTypes.deleteCourse, (state, action) => {
+      return adapter.removeOne(action.courseId, state);
+    }),
+
+    on(courseActionTypes.updateCourse, (state, action) => {
+      return adapter.updateOne(action.update, state);
+    })
   )(state, action);
 }
 

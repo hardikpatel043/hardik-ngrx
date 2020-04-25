@@ -3,13 +3,16 @@ import * as uuid from "uuid";
 import { Component, OnInit } from "@angular/core";
 
 import { Course } from "./../../model/course.model";
+import { CourseState } from "../../store/course.reducers";
+import { Store } from "@ngrx/store";
+import { createCourse } from "../../store/course.actions";
 
 @Component({
   selector: "app-create-course",
   templateUrl: "./create-course.component.html"
 })
 export class CreateCourseComponent implements OnInit {
-  constructor() {}
+  constructor(private store: Store<CourseState>) {}
 
   ngOnInit() {}
 
@@ -25,5 +28,7 @@ export class CreateCourseComponent implements OnInit {
       name: submittedForm.value.name,
       description: submittedForm.value.description
     };
+
+    this.store.dispatch(createCourse({ course }));
   }
 }

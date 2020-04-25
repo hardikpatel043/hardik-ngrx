@@ -1,11 +1,12 @@
 import { Component, OnInit } from "@angular/core";
+import { courseActionTypes, loadCourses } from "../../store/course.actions";
 
 import { Course } from "./../../model/course.model";
 import { CourseState } from "../../store/course.reducers";
 import { Observable } from "rxjs";
 import { Store } from "@ngrx/store";
+import { Update } from "@ngrx/entity";
 import { getAllCourses } from "../../store/course.selectors";
-import { loadCourses } from "../../store/course.actions";
 
 @Component({
   selector: "app-courses-list",
@@ -26,7 +27,9 @@ export class CoursesListComponent implements OnInit {
     this.courses$ = this.store.select(getAllCourses);
   }
 
-  deleteCourse(courseId: string) {}
+  deleteCourse(courseId: string) {
+    this.store.dispatch(courseActionTypes.deleteCourse({ courseId }));
+  }
 
   showUpdateForm(course: Course) {
     this.courseToBeUpdated = { ...course };
@@ -34,6 +37,14 @@ export class CoursesListComponent implements OnInit {
   }
 
   updateCourse(updateForm) {
+    const update: Update<Course> = {
+      id: this.courseToBeUpdated.id,
+      changes: {
+        ...this.courseToBeUpdated,
+        ...updateForm.value
+      }
+    };
+    this.store.dispatch(courseActionTypes.updateCourse({ update }));
     this.isUpdateActivated = false;
     this.courseToBeUpdated = null;
   }
