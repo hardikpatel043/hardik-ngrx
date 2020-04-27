@@ -1,6 +1,12 @@
 <div>
   <input placeholder="Search Course.." [formControl]="search" />
-
+  <div class="col s12">
+    <label>Sort by</label>
+    <select class="browser-default" [formControl]="sort">
+      <option value="assending">A-Z</option>
+      <option value="decending">Z-A</option>
+    </select>
+  </div>
   <table class="table table-dark">
     <thead>
       <tr>

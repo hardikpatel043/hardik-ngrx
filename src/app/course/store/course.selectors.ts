@@ -8,13 +8,22 @@ export const courseFeatureSelector = createFeatureSelector<CourseState>(
 );
 
 export const getAllCourses = createSelector(courseFeatureSelector, selectAll);
-export const getSearchCourses = (searchtxt: string) =>
+export const getSearchCourses = (searchtxt: string, sortBy: string) =>
   createSelector(getAllCourses, state => {
-    return state.filter(
-      course =>
-        course.name.toLowerCase().includes(searchtxt) ||
-        course.description.toLowerCase().includes(searchtxt)
-    );
+    return state
+      .filter(
+        course =>
+          course.name.toLowerCase().includes(searchtxt) ||
+          course.description.toLowerCase().includes(searchtxt)
+      )
+      .sort((a, b) => {
+        switch (sortBy) {
+          case "assending":
+            return a.name.localeCompare(b.name);
+          default:
+            return b.name.localeCompare(a.name);
+        }
+      });
   });
 
 export const areCoursesLoaded = createSelector(

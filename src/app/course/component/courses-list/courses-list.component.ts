@@ -1,11 +1,11 @@
 import { Component, OnInit } from "@angular/core";
+import { Observable, combineLatest } from "rxjs";
 import { courseActionTypes, loadCourses } from "../../store/course.actions";
 import { startWith, switchMap } from "rxjs/operators";
 
 import { Course } from "./../../model/course.model";
 import { CourseState } from "../../store/course.reducers";
 import { FormControl } from "@angular/forms";
-import { Observable } from "rxjs";
 import { Store } from "@ngrx/store";
 import { Update } from "@ngrx/entity";
 import { getSearchCourses } from "../../store/course.selectors";
@@ -21,15 +21,20 @@ export class CoursesListComponent implements OnInit {
 
   isUpdateActivated = false;
   search = new FormControl();
+  sort = new FormControl("assending");
 
   constructor(private store: Store<CourseState>) {
     this.store.dispatch(loadCourses());
   }
 
   ngOnInit() {
-    this.courses$ = this.search.valueChanges.pipe(
-      startWith(""),
-      switchMap(value => this.store.select(getSearchCourses(value)))
+    this.courses$ = combineLatest(
+      this.search.valueChanges.pipe(startWith("")),
+      this.sort.valueChanges.pipe(startWith("assending"))
+    ).pipe(
+      switchMap(([term, sortBy]) =>
+        this.store.select(getSearchCourses(term, sortBy))
+      )
     );
   }
 
