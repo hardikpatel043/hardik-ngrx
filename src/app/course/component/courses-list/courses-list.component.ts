@@ -1,12 +1,14 @@
 import { Component, OnInit } from "@angular/core";
 import { courseActionTypes, loadCourses } from "../../store/course.actions";
+import { startWith, switchMap } from "rxjs/operators";
 
 import { Course } from "./../../model/course.model";
 import { CourseState } from "../../store/course.reducers";
+import { FormControl } from "@angular/forms";
 import { Observable } from "rxjs";
 import { Store } from "@ngrx/store";
 import { Update } from "@ngrx/entity";
-import { getAllCourses } from "../../store/course.selectors";
+import { getSearchCourses } from "../../store/course.selectors";
 
 @Component({
   selector: "app-courses-list",
@@ -18,13 +20,17 @@ export class CoursesListComponent implements OnInit {
   courseToBeUpdated: Course;
 
   isUpdateActivated = false;
+  search = new FormControl();
 
   constructor(private store: Store<CourseState>) {
     this.store.dispatch(loadCourses());
   }
 
   ngOnInit() {
-    this.courses$ = this.store.select(getAllCourses);
+    this.courses$ = this.search.valueChanges.pipe(
+      startWith(""),
+      switchMap(value => this.store.select(getSearchCourses(value)))
+    );
   }
 
   deleteCourse(courseId: string) {

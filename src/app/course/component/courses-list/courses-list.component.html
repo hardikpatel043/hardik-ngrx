@@ -1,4 +1,6 @@
 <div>
+  <input placeholder="Search Course.." [formControl]="search" />
+
   <table class="table table-dark">
     <thead>
       <tr>
@@ -12,8 +14,20 @@
         <td>{{ course.name }}</td>
         <td>{{ course.description }}</td>
         <td>
-          <button (click)="showUpdateForm(course)" class="btn btn-primary" style="margin: 5px">Update</button>
-          <button (click)="deleteCourse(course.id)" class="btn btn-danger" style="margin: 5px">Delete</button>
+          <button
+            (click)="showUpdateForm(course)"
+            class="btn btn-primary"
+            style="margin: 5px"
+          >
+            Update
+          </button>
+          <button
+            (click)="deleteCourse(course.id)"
+            class="btn btn-danger"
+            style="margin: 5px"
+          >
+            Delete
+          </button>
         </td>
       </tr>
     </tbody>
@@ -31,7 +45,8 @@
           class="form-control"
           required
           [(ngModel)]="courseToBeUpdated.name"
-          style="width: 400px"/>
+          style="width: 400px"
+        />
       </div>
       <div class="form-group">
         <label for="side">Description</label>
@@ -42,9 +57,16 @@
           class="form-control"
           required
           [(ngModel)]="courseToBeUpdated.description"
-          style="width: 400px"/>
+          style="width: 400px"
+        />
       </div>
-      <button [disabled]="updateForm.invalid" class="btn btn-primary" type="submit">Update</button>
+      <button
+        [disabled]="updateForm.invalid"
+        class="btn btn-primary"
+        type="submit"
+      >
+        Update
+      </button>
     </form>
   </div>
 </div>

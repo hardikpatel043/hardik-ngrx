@@ -1,10 +1,11 @@
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+
 import { CommonModule } from "@angular/common";
 import { CourseEffects } from "./store/course.effects";
 import { CourseService } from "./services/course.service";
 import { CoursesListComponent } from "./component/courses-list/courses-list.component";
 import { CreateCourseComponent } from "./component/create-course/create-course.component";
 import { EffectsModule } from "@ngrx/effects";
-import { FormsModule } from "@angular/forms";
 import { NgModule } from "@angular/core";
 import { StoreModule } from "@ngrx/store";
 import { courseReducer } from "./store/course.reducers";
@@ -15,6 +16,7 @@ import { environment } from "src/environments/environment";
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     StoreModule.forRoot(
       {},
       {
