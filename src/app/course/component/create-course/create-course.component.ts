@@ -3,16 +3,18 @@ import * as uuid from "uuid";
 import { Component, OnInit } from "@angular/core";
 
 import { Course } from "./../../model/course.model";
-import { CourseState } from "../../store/course.reducers";
-import { Store } from "@ngrx/store";
-import { createCourse } from "../../store/course.actions";
+import { CourseEntityService } from "../../store/course.entity.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-create-course",
   templateUrl: "./create-course.component.html"
 })
 export class CreateCourseComponent implements OnInit {
-  constructor(private store: Store<CourseState>) {}
+  constructor(
+    private courseEntityService: CourseEntityService,
+    private router: Router
+  ) {}
 
   ngOnInit() {}
 
@@ -29,6 +31,8 @@ export class CreateCourseComponent implements OnInit {
       description: submittedForm.value.description
     };
 
-    this.store.dispatch(createCourse({ course }));
+    this.courseEntityService.add(course);
+    this.router.navigateByUrl("/course");
+    // this.store.dispatch(createCourse({ course }));
   }
 }
